@@ -1,12 +1,14 @@
 import './index.css'
 
 const Tags = props => {
-  const {details} = props
+  const {details, clickTag} = props
   const {displayText} = details
 
   return (
-    <li className="list">
-      <button type="button">{displayText}</button>
+    <li className="each-list">
+      <button type="button" className="btn">
+        {displayText}
+      </button>
     </li>
   )
 }

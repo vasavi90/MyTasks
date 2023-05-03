@@ -5,9 +5,9 @@ const Tasks = props => {
   const {inputText, activeOption} = details
 
   return (
-    <li>
-      <p className="text">{inputText}</p>
-      <button type="button" className="button">
+    <li className="list">
+      <p className="input-text">{inputText}</p>
+      <button type="button" className="button-style">
         {activeOption}
       </button>
     </li>

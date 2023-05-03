@@ -1,8 +1,7 @@
-import {v4 as uuidv4} from 'uuid'
+import {v4} from 'uuid'
 import {Component} from 'react'
 
 import Tags from './components/Tags'
-
 import Tasks from './components/Tasks'
 
 import './App.css'
@@ -59,8 +58,9 @@ class App extends Component {
   submitForm = event => {
     event.preventDefault()
     const {inputText, activeOption} = this.state
+    console.log(activeOption)
     const newTask = {
-      id: uuidv4(),
+      id: v4(),
       inputText,
       activeOption,
     }
@@ -71,34 +71,26 @@ class App extends Component {
     }))
   }
 
-  renderTasks = tasksList => (
-    <ul className="tasks-container-two">
-      {tasksList.map(eachTask => (
-        <Tasks key={eachTask.id} details={eachTask} />
-      ))}
-    </ul>
-  )
-
   render() {
     const {inputText, activeOption, tasksList} = this.state
-    const lengthOfList = tagsList.length > 0
+    const lengthOfList = tasksList.length > 0
     return (
       <div className="app-container">
         <div className="input-container">
           <h1 className="main-heading">Create a task!</h1>
           <form className="form" onSubmit={this.submitForm}>
-            <label htmlFor="input" className="label">
+            <label htmlFor="inputText" className="label">
               Task
             </label>
             <input
               value={inputText}
               type="text"
-              id="input"
+              id="inputText"
               placeholder="Enter the task here"
               className="input"
               onChange={this.onChangeInput}
             />
-            <label htmlFor="tag" className="label">
+            <label htmlFor="select" className="label">
               Tags
             </label>
             <select
@@ -113,28 +105,32 @@ class App extends Component {
                 </option>
               ))}
             </select>
+            <button type="submit" className="button">
+              Add Task
+            </button>
           </form>
-          <button type="submit" className="button">
-            Add Task
-          </button>
         </div>
         <div className="tasks-container">
-          <div>
-            <h1 className="heading">Tags</h1>
-            <ul className="container">
-              {tagsList.map(eachTag => (
-                <Tags key={eachTag.optionId} details={eachTag} />
+          <h1 className="heading">Tags</h1>
+          <ul className="container">
+            {tagsList.map(eachTag => (
+              <Tags
+                key={eachTag.optionId}
+                details={eachTag}
+                clickTag={this.onClickTag}
+              />
+            ))}
+          </ul>
+          <h1 className="heading">Tasks</h1>
+          {lengthOfList ? (
+            <ul className="tasks-container-two">
+              {tasksList.map(eachTask => (
+                <Tasks key={eachTask.id} details={eachTask} />
               ))}
             </ul>
-          </div>
-          <div className="another-container">
-            <h1 className="heading">Tasks</h1>
-            {lengthOfList ? (
-              this.renderTasks(tasksList)
-            ) : (
-              <p className="no-tasks">No Tasks Yet</p>
-            )}
-          </div>
+          ) : (
+            <p className="no-tasks">No Tasks Added Yet</p>
+          )}
         </div>
       </div>
     )
